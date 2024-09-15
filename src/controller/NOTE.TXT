@@ -1,0 +1,3 @@
+ada user lagi pengen ke /profile dan nanti di handle routing
+setelah itu kita bakal pecah prosesnya dengan controller, peran controller itu menghandle request yang masuk dan responsenya apa
+
