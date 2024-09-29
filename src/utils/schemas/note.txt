@@ -1,0 +1,2 @@
+schema adalah sebuah bentuk validasi dari tipe
+tipe itu bisa dari DTO

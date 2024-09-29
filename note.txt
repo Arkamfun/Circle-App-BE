@@ -1,0 +1,8 @@
+joi digunakan untuk membuat validation endpoint artinya membuat batas atau kriteria dalam validation
+contohnya kita dapat membuat jumlah minimal dan maksimal karakter dalam username
+
+dalam validasi, terdapat 3 validasi :
+di frontend, backend, dan database,
+di frontend kita sudah menggunakan zoid
+sedangkan di backend kita akan menggunakan joi
+untuk di database belum dulu

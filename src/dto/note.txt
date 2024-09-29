@@ -1,0 +1,2 @@
+dto itu adalah type yang dibuat oleh kita yang 
+bertujuan untuk mempermudah pengambilan / pemasukan dalam database 
