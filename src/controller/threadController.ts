@@ -17,9 +17,9 @@ class threadController {
 
     async findID(req:Request, res:Response) {
         try{
-            const {id} = req.params
-            const thread = await threadService.getThreadbyId(Number(id)) 
-            res.json(thread)
+            const {threadId} = req.params
+            const thread = await threadService.getThreadbyId(Number(threadId)) 
+            res.json({data:thread})
         }catch(error) {
             res.json(error)
         }
@@ -70,6 +70,7 @@ class threadController {
         try{
 
                 const updateThread = await threadService.updateThread(req.body)
+                
                 
     } catch(error) {
         res.status(505).json({message:"thread is not found"})

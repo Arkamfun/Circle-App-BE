@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { request, Request, Response } from "express";
 import authService from "../service/authService";
 import { loginSchema, registerSchema } from "../utils/schemas/auth-schema";
 
@@ -54,7 +54,6 @@ class AuthController {
         } catch(error) {
             res.json(error)
         }
-
     }
    
 }

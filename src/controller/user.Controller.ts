@@ -52,7 +52,7 @@ class UserController {
         try {
             const userId = parseInt(req.params.id)
             const value = await updateUserSchema.validateAsync(req.body)
-        const users = await userService.updateUser(req.body)
+        const users = await userService.updateUser(value, userId)
         res.json(users)} 
         catch(error) {
             res.json(error)

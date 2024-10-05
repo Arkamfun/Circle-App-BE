@@ -63,11 +63,11 @@ class userService{
             }
         }) //klo mau buat banyak, pake createmany()
     }
-     async updateUser (data :UpdateUserDTO) :Promise<{user:Pick<User, "fullName" | "username" | "biografi" | "id">}
+     async updateUser (data :UpdateUserDTO, id: number) :Promise<{user:Pick<User, "fullName" | "username" | "biografi" | "id">}
      >  {
         const user = await prisma.user.findUnique({
             where: {
-              id: data.id //ambil data id dari hasil decode token
+              id: id //ambil data id dari hasil decode token
             }
         })
     
@@ -80,7 +80,7 @@ class userService{
         }
         const updateUser = await prisma.user.update({
             where: {
-                id:data.id
+                id:id
             },
             data : {
                 fullName:data.fullName || user.fullName,
