@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
+    "build": "prisma generate && npx tsc",
     "start": "node fileJS/index.js",
     "dev": "nodemon  src/index.ts",
-    "swagger": "node ./swagger/swagger.js"
+    "swagger": "node ./swagger/swagger.js",
+    "postinstall": "prisma generate"
+    
   },
   "keywords": [],
   "author": "",
