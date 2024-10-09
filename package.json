@@ -8,7 +8,6 @@
     "dev": "nodemon  src/index.ts",
     "swagger": "node ./swagger/swagger.js",
     "postinstall": "prisma generate"
-    
   },
   "keywords": [],
   "author": "",
@@ -25,6 +24,7 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
@@ -34,6 +34,7 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.5.4",
+    "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "prisma": "^5.19.1",
     "swagger-autogen": "^2.23.7",
