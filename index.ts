@@ -33,13 +33,14 @@ const swaggerOptions = {
 
 const swaggerDocs = swaggerjsdoc(swaggerOptions)
 
-app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument, {
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs, {
     explorer: true,
     swaggerOptions: {
         persistAuthorization: true,
         displayRequestDuration: true,
     }
 }))
+
 
 
 app.get("/", (req: Request, res: Response) => {
