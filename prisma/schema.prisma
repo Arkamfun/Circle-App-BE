@@ -14,51 +14,41 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   fullName    String?
-  email       String    @unique
+  email       String   @unique
   password    String
-  role        RoleEnum  @default(MEMBER)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  role        RoleEnum @default(MEMBER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   biografi    String?
   photoprofil String?
   username    String?
-  following   Follow[]  @relation("Following")
-  follower    Follow[]  @relation("Followers")
+  following   Follow[] @relation("Following")
+  follower    Follow[] @relation("Followers")
   Threads     Thread[]
-  Comments    Comment[]
   Likes       Like[]
-  isVerified  Boolean   @default(false)
+  reply       Reply[]
+  isVerified  Boolean  @default(false)
 
   @@map("users")
 }
 
 model Thread {
-  id        Int       @id @default(autoincrement())
-  title     String?
-  content   String?
-  user      User?     @relation(fields: [userId], references: [id])
-  userId    Int?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  Image     String?
-  Likes     Like[]
-  comments  Comment[]
+  id           Int      @id @default(autoincrement())
+  threadId     Int?
+  title        String?
+  content      String?
+  author       User?    @relation(fields: [AuthorId], references: [id])
+  AuthorId     Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now()) @updatedAt
+  image        String?
+  repliesCount Int?     @default(0)
+  Likes        Like[]
+  reply        Reply[]
 
   @@map("threads")
-}
-
-model Comment {
-  id        Int      @id @default(autoincrement())
-  content   String?
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Thread    Thread   @relation(fields: [threadId], references: [id])
-  threadId  Int
-  likes     Like[]
 }
 
 model Follow {
@@ -83,12 +73,27 @@ model Like {
   thread   Thread @relation(fields: [threadId], references: [id])
   threadId Int
 
-  Comment   Comment? @relation(fields: [commentId], references: [id])
   commentId Int?
   cratedAt  DateTime @default(now())
 
   @@unique([userId, threadId])
   @@map("likes")
+}
+
+model Reply {
+  id           Int      @id @default(autoincrement())
+  content      String?
+  image        String?
+  likesCount   Int?     @default(0)
+  repliesCount Int?     @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  author       User?    @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId     Int?
+  thread       Thread?  @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  threadId     Int?
+
+  @@map("reply")
 }
 
 enum RoleEnum {

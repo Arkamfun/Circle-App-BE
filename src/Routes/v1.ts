@@ -5,7 +5,10 @@ import authController from "../controller/auth.Controller";
 import { authentication } from "../middleware/authenthication";
 import { authorize } from "../middleware/authorize";
 import threadController from "../controller/threadController";
+import { searchController } from "../controller/search-controller";
 import { upload } from "../middleware/upload-file";
+import { catchAsync } from "../utils/catch.async";
+import { createReply, getRepliesbythread } from "../controller/reply-controller";
 export const routerV1 = express.Router();
 
 // lalu buat seperti ini
@@ -14,25 +17,30 @@ export const routerV1 = express.Router();
 // patch = ngubah data tanpa buat data baru
 
 routerV1.get("/users", userController.findAll);
-routerV1.get("/getuser", authentication, userController.getUser);
+routerV1.get("/getuser", catchAsync(authentication), userController.getUser);
 routerV1.get("/users/:id", userController.findById);
 routerV1.get("/users/email/:email", userController.findByEmail);
 routerV1.post("/users", userController.create);
-routerV1.post('/logout',(req:Request, res:Response) => {
+routerV1.post('/logout', (req: Request, res: Response) => {
     res.clearCookie('token');
-    return res.status(200).json({message: 'Logout success'})
+    return res.status(200).json({ message: 'Logout success' })
 })
 routerV1.patch("/users/editprofile/:id", userController.update);
+
+routerV1.get("/search", catchAsync(authentication), searchController);
 
 // thread routes
 routerV1.get("/thread", threadController.showAll)
 routerV1.get("/thread/:threadId", threadController.findID.bind(threadController))
-routerV1.post("/thread", authentication, upload.single("image"), threadController.create)
-routerV1.patch("/thread/:id", authentication, threadController.updateThread)
-routerV1.delete("/thread/:id", authentication, threadController.deleteThread)
+routerV1.post("/thread", catchAsync(authentication), upload.single("image"), threadController.create)
+routerV1.patch("/thread/:id", catchAsync(authentication), threadController.updateThread)
+routerV1.delete("/thread/:id", catchAsync(authentication), threadController.deleteThread)
 routerV1.post("/auth/login", authController.login)
 routerV1.post("/auth/register", authController.register)
-routerV1.get("/auth/check", authentication, authController.check)
-routerV1.get("/dashboard", authentication, authorize("ADMIN"), (req, res) => {
+routerV1.post("/reply/:threadId", catchAsync(authentication), upload.single("image"), createReply)
+routerV1.get("/reply/comment/:threadId", catchAsync(authentication), getRepliesbythread)
+// catchAsync(authentication), upload.single("image"), createReply
+routerV1.get("/auth/check", catchAsync(authentication), authController.check)
+routerV1.get("/dashboard", catchAsync(authentication), authorize("ADMIN"), (req, res) => {
     res.json({ message: "hello from dashboard" })
 })

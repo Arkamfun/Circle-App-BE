@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import threadService from "../service/threadService";
 import { CustomError, CustomErrorCode } from "../types/error";
 import { createThreadSchema } from "../utils/schemas/createThread.schema";
+import CloudinaryService from "../service/CloudinaryService";
 
 class threadController {
     
@@ -39,11 +40,16 @@ class threadController {
         } 
     */
         try {
+            let imgUrl :  string | undefined
+            if(req.file) {
+                const image = await CloudinaryService.upload(req.file)
+                imgUrl = image.secure_url
+            }
+            const body = {...req.body, ...(imgUrl && {image:imgUrl})}
             const user = (req as any).user;
-            const body = req.body
-
             const value = await createThreadSchema.validateAsync(body);
             const threads = await threadService.createThread(value, user);
+            console.log(body)
             res.json(threads)
         } catch (error) {
             res.json(error)
