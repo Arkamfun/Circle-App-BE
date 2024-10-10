@@ -2,7 +2,6 @@
 import express, { Request, Response } from "express"
 import { routerV1 } from "./src/Routes/v1";
 import swaggerUI from "swagger-ui-express"
-import swaggerDocument from "../swagger/swagger-output.json"
 import cors from 'cors'
 import swaggerjsdoc from "swagger-jsdoc"
 import { describe } from "node:test";
