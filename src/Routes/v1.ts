@@ -9,6 +9,8 @@ import { searchController } from "../controller/search-controller";
 import { upload } from "../middleware/upload-file";
 import { catchAsync } from "../utils/catch.async";
 import { createReply, getRepliesbythread } from "../controller/reply-controller";
+import likeThreadController from "../controller/like-thread-Controller";
+import likeReplyController from "../controller/like-reply-controller";
 export const routerV1 = express.Router();
 
 // lalu buat seperti ini
@@ -35,10 +37,22 @@ routerV1.get("/thread/:threadId", threadController.findID.bind(threadController)
 routerV1.post("/thread", catchAsync(authentication), upload.single("image"), threadController.create)
 routerV1.patch("/thread/:id", catchAsync(authentication), threadController.updateThread)
 routerV1.delete("/thread/:id", catchAsync(authentication), threadController.deleteThread)
+// auth routes
 routerV1.post("/auth/login", authController.login)
 routerV1.post("/auth/register", authController.register)
+
+// reply routes
 routerV1.post("/reply/:threadId", catchAsync(authentication), upload.single("image"), createReply)
 routerV1.get("/reply/comment/:threadId", catchAsync(authentication), getRepliesbythread)
+
+// like routes
+routerV1.post("/thread/:threadId/like", catchAsync(authentication), likeThreadController.likeThread)
+routerV1.post("/reply/:replyId/like", catchAsync(authentication), likeReplyController.likeReply)
+
+// like route -> mendapatkan semua like 
+routerV1.get('/thread/:threadId/likes', catchAsync(authentication), likeThreadController.getLikes)
+routerV1.get('/reply/:replyId/likes', catchAsync(authentication), likeThreadController.getLikes)
+
 // catchAsync(authentication), upload.single("image"), createReply
 routerV1.get("/auth/check", catchAsync(authentication), authController.check)
 routerV1.get("/dashboard", catchAsync(authentication), authorize("ADMIN"), (req, res) => {
