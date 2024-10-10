@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "threads" ALTER COLUMN "title" DROP NOT NULL,
-ALTER COLUMN "content" DROP NOT NULL;
